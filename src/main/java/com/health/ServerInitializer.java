@@ -26,6 +26,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     p.addLast(new LoggingHandler(LogLevel.INFO));
     p.addLast(new HttpServerCodec());/*HTTP 服务的解码器*/
     p.addLast(new HttpObjectAggregator(2048));/*HTTP 消息的合并处理*/
+    p.addLast(IPHandler.INSTANCE);
     p.addLast(new HealthServerHandler()); /*自己写的服务器逻辑处理*/
   }
 }

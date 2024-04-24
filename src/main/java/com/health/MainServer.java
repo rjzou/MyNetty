@@ -21,8 +21,8 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 public final class MainServer {
 
   /*是否使用https协议*/
-  static final boolean SSL = System.getProperty("ssl") != null;
-  static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "6789"));
+  static final boolean SSL = System.getenv("ssl") != null;
+  static final int PORT = Integer.parseInt(System.getenv("port")!=null? System.getenv("port"):(SSL? "8443" : "6789"));
 
   public static void main(String[] args) throws Exception {
     // Configure SSL.

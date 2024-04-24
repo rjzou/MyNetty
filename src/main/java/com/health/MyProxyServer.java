@@ -10,7 +10,7 @@ public class MyProxyServer {
 
     // 多个后端url返回随机路由
     // 可以自定义规则匹配url
-    String proxyServers = System.getProperty("proxyServers","http://localhost:6789,http://localhost:8802");
+    String proxyServers = System.getProperty("proxyServers","http://localhost:6789,http://localhost:6790");
     int port = Integer.parseInt(proxyPort);
     HttpInboundServer server = new HttpInboundServer(port, Arrays.asList(proxyServers.split(",")));
     try {

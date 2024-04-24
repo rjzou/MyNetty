@@ -13,13 +13,13 @@ import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.AsciiString;
 import io.netty.util.CharsetUtil;
+import org.json.JSONObject;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.*;
 
 
 
-import org.json.JSONObject;
 
 public class HealthServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -35,6 +35,8 @@ public class HealthServerHandler extends ChannelInboundHandlerAdapter {
 
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    String IP=ctx.channel().attr(Attributes.IP).get();
+    System.out.println(IP);
 
     if (msg instanceof FullHttpRequest) {
       FullHttpRequest req = (FullHttpRequest) msg;//客户端的请求对象
