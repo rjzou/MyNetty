@@ -73,31 +73,31 @@ public class HttpOutboundHandler {
   public void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx, HttpRequestFilter filter) {
     String backendUrl = router.route(this.backendUrls);
     final String url = backendUrl + fullRequest.uri();
-    System.out.println(url);
+
     filter.filter(fullRequest, ctx);
-    FullHttpRequest req =fullRequest.duplicate();
-    proxyService.submit(() -> fetchGet(req, ctx, url));
+    proxyService.submit(() -> fetchGet(fullRequest, ctx, url));
   }
+
   private String parseJosnRequest(FullHttpRequest request) {
     ByteBuf jsonBuf = request.content();
     String jsonStr = jsonBuf.toString(CharsetUtil.UTF_8);
     return jsonStr;
   }
+
   private void fetchGet(final FullHttpRequest inbound, final ChannelHandlerContext ctx, final String url) {
+    System.out.println(url);
     final HttpPost httpPost = new HttpPost(url);
-    //httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
+//    httpPost.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
     httpPost.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
     httpPost.setHeader("test", inbound.headers().get("test"));
     httpPost.setHeader("Accept", "application/json");
     httpPost.setHeader("Content-type", "application/json");
 
-    JSONObject requestJson = null;
-    try{
-      requestJson = new JSONObject(parseJosnRequest(inbound));
-      StringEntity entity = new StringEntity(requestJson.toString());
+    try {
+      StringEntity entity = new StringEntity(parseJosnRequest(inbound));
       httpPost.setEntity(entity);
-    }catch(Exception e) {
-        e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     httpclient.execute(httpPost, new FutureCallback<HttpResponse>() {

@@ -1,8 +1,9 @@
 
-###使用手册
+### 使用手册
 
-#### 1.运行第一个MainServer 设置port=6789
-#### 2.运行第二个MainServer 设置port=6790
+
+#### 1.运行第一个MainServer 设置port=6789（可以使用IDEA ->add vm options->输入 -Dport=6789）
+#### 2.运行第二个MainServer 设置port=6790（可以使用IDEA ->add vm options->输入 -Dport=6790）
 #### 3.运行第一个MyProxyServer
 
 
